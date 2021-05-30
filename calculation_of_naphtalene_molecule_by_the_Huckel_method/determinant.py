@@ -1,3 +1,7 @@
+import sympy
+import sympy as sym
+
+
 class Determinant:
     __ALPHA = -11.0
     __BETA = -2.4
@@ -13,6 +17,28 @@ class Determinant:
                             ["0", "0", "0", "0", "0", "0", "1", "x", "1", "0"],
                             ["0", "0", "0", "0", "0", "0", "0", "1", "x", "1"],
                             ["1", "0", "0", "0", "1", "0", "0", "0", "1", "x"]]
+        #
+        # self.determinant = [["x", "3", "1"],
+        #                     ["2", "4", "x"],
+        #                     ["x", "x", "0"]]
+        #
+        # self.determinant = [["8 * x", "3", "2"],
+        #                     ["4", "x", "3"],
+        #                     ["x", "5 * x", "1"]]
+
+    def root_search(self):
+        determinant_decomposition = self.decomposition_to_string(len(self.determinant), [], "")
+
+        x = sym.Symbol('x')
+        expr = sym.simplify(determinant_decomposition)
+
+        result = sym.solveset(expr, x, sympy.Reals)
+
+        answers = []
+        for m in result:
+            answers.append(self.get_E(sym.N(m)))
+
+        return answers
 
     def decomposition_to_string(self, N, skipping, add_in_skipping):
         decomposition = ""
