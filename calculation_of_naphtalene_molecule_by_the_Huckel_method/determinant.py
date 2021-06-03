@@ -1,4 +1,4 @@
-import sympy
+from config import Config
 import sympy as sym
 
 
@@ -7,16 +7,7 @@ class Determinant:
     __BETA = -2.4
 
     def __init__(self):
-        self.determinant = [["x", "1", "0", "0", "0", "0", "0", "0", "0", "1"],
-                            ["1", "x", "1", "0", "0", "0", "0", "0", "0", "0"],
-                            ["0", "1", "x", "1", "0", "0", "0", "0", "0", "0"],
-                            ["0", "0", "1", "x", "1", "0", "0", "0", "0", "0"],
-                            ["0", "0", "0", "1", "x", "1", "0", "0", "0", "1"],
-                            ["0", "0", "0", "0", "1", "x", "1", "0", "0", "0"],
-                            ["0", "0", "0", "0", "0", "1", "x", "1", "0", "0"],
-                            ["0", "0", "0", "0", "0", "0", "1", "x", "1", "0"],
-                            ["0", "0", "0", "0", "0", "0", "0", "1", "x", "1"],
-                            ["1", "0", "0", "0", "1", "0", "0", "0", "1", "x"]]
+        self.determinant = Config.string_matrix
         #
         # self.determinant = [["x", "3", "1"],
         #                     ["2", "4", "x"],
@@ -26,17 +17,27 @@ class Determinant:
         #                     ["4", "x", "3"],
         #                     ["x", "5 * x", "1"]]
 
+    def get_E(self, list_x):
+        result = []
+        for m in list_x:
+            result.append(self.x_to_E(m))
+
+        return result
+
+    def x_to_E(self, x):
+        return Config.ALPHA - Config.BETA * x
+
     def root_search(self):
         determinant_decomposition = self.decomposition_to_string(len(self.determinant), [], "")
 
         x = sym.Symbol('x')
         expr = sym.simplify(determinant_decomposition)
 
-        result = sym.solveset(expr, x, sympy.Reals)
+        result = sym.solveset(expr, x, sym.Reals)
 
         answers = []
         for m in result:
-            answers.append(self.get_E(sym.N(m)))
+            answers.append(sym.N(m))
 
         return answers
 
@@ -115,6 +116,3 @@ class Determinant:
         if len(skipping) > 0:
             skipping.pop()
         return decomposition
-
-    def get_E(self, x):
-        return self.__ALPHA - self.__BETA * x
