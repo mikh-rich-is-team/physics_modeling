@@ -12,6 +12,9 @@ if __name__ == '__main__':
         matrix = Matrix(roots[i])
         coefficients = matrix.solve()
 
-        print(Config.psi_upper + " = ")
+        print()
+        print(Config.psi_upper + "_" + str(i + 1) + " = ", end='')
         for j in range(len(coefficients)):
-            print(str(coefficients[j]) + " * " + Config.psi + "_" + str(j + 1) + " + ")
+            print(str(coefficients[j]) + " * " + Config.psi + "_" + str(j + 1), end='')
+            if j != len(coefficients) - 1:
+                print(" + ", end='')
