@@ -1,3 +1,6 @@
+from win32api import GetSystemMetrics
+
+
 class Config:
     ALPHA = -11.0
     BETA = -2.4
@@ -14,3 +17,4 @@ class Config:
     string_coefficients = "c_1 c_2 c_3 c_4 c_5 c_6 c_7 c_8 c_9 c_10"
     psi = u"\u03c8"
     psi_upper = u"\u03a8"
+    screen_resolution = str(GetSystemMetrics(0)) + "x" + str(GetSystemMetrics(1))
